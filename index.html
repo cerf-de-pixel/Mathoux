@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mathoux</title>
+    <meta charset="utf-8" />   
+    <LINK href="style.css" rel="stylesheet" type="text/css">  
+    <link rel="icon" type="image/png" href="./img/logo.png" />
+    <meta name="viewport" content="width=device-width" /> 
+    <script type="text/javascript" src="script/JQuery-Velocity.js"></script>
+    <script type="text/javascript" src="script/Mathoux.js"></script>
+    <script type="text/javascript" src="script/modelsNiveaux.js"></script>
+  </head>
+
+  <body>
+    <nav id="backLink">-</nav>
+  	<header>
+      <h1>Mathoux</h1>
+  		<img src="./img/logo.png">
+  	</header>
+ 
+  	<div id="content">
+      <div id='MathouxMain'>
+        <div class="class_menu">
+         <h1>Mathématiques</h1>
+         <small>Exercez-vous facilement.</small>
+         <hr>
+         <button onclick="startCalculsMentaux();">    Calculs mentaux.         </button>
+         <button onclick="startCalculsATrous();">     Calculs à trous.         </button>
+         <button onclick="startCalculsVraisFaux();">  Calculs vrais ou faux ?  </button>
+         <!--<button onclick="startSuites();">            Suites de nombres. [BETA]</button>-->
+        </div>
+        <div id="greyBox"></div>
+      </div>
+    </div>
+
+    <footer>
+      <iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FTwiyLogic&amp;width=125&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=true&amp;height=35&amp;appId=281921212010602" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:125px; height:20px;" allowTransparency="true"></iframe>
+      <br>
+    	<span><a href="http://twiy-logic.fr/">Codé par twiy-logic.fr</a></span>
+    </footer>
+    
+    <script type="text/javascript">
+    var EtatActuel = "none"; 
+
+    animationEnable = getCookie("MathouxAnimationEnable");
+    if (animationEnable == null) {
+      setCookie("MathouxAnimationEnable", true);
+      animationEnable = true;
+    } else if (animationEnable == 'true'){ animationEnable = true;
+    } else if (animationEnable == 'false') { animationEnable = false; }
+    updateGreyBox();
+
+    function printMainMenu() {
+      var menuHTML = "";
+      menuHTML += '<div class="class_menu">';
+      menuHTML += '     <h1>Mathématiques</h1>';
+      menuHTML += '     <small>Exercez-vous facilement.</small>';
+      menuHTML += '     <hr>';
+      menuHTML += '     <button onclick="startCalculsMentaux();">   Calculs mentaux.         </button>';
+      menuHTML += '     <button onclick="startCalculsATrous();">    Calculs à trous.         </button>';
+      menuHTML += '     <button onclick="startCalculsVraisFaux();"> Calculs vrais ou faux ?  </button>';
+      /*menuHTML += '     <button onclick="startSuites();">           Suites de nombres. [BETA]</button>';*/
+      menuHTML += '</div>';
+      menuHTML += '<div id="greyBox"></div>';
+      
+      document.getElementById("MathouxMain").innerHTML = menuHTML;
+      document.getElementById("backLink").innerHTML = "-"; // ne pas afficher le backLink
+      updateGreyBox();
+      animation.menu();
+    }
+
+    function start(obj) {
+      EtatActuel = obj;
+      EtatActuel.UI.menuDisplay();
+      document.getElementById("backLink").innerHTML = "<a onclick='backLink();'>&lt; Retour</a>"; // afficher le backLink
+    }
+
+    function backLink() {
+      if ( EtatActuel != "none" ) {
+        if (EtatActuel.etat == "menu") {
+          printMainMenu();
+        } else if ((EtatActuel.etat == "game")||(EtatActuel.etat == "score")) {
+          EtatActuel.UI.menuDisplay();
+        }
+      }
+    } // fin de backLink
+
+    function onOffAnimatation() {
+      animationEnable = !animationEnable;
+      setCookie("MathouxAnimationEnable", animationEnable);
+      updateGreyBox();
+    }
+    function updateGreyBox() {
+      if (animationEnable) {
+        document.getElementById("greyBox").innerHTML = 
+        '<a onclick="onOffAnimatation();"><img src="img/on.png"> Désactiver les animations.</a>';
+      } else {
+        document.getElementById("greyBox").innerHTML = 
+        '<a onclick="onOffAnimatation();"><img src="img/off.png">Activer les animations.</a>';
+      }
+    }
+
+    function startCalculsMentaux()    
+      { loadScript("script/calculs-mentaux.js",     function() { start(calculMental);    });}
+    function startCalculsATrous()     
+      { loadScript("script/calculs-a-trous.js",     function() { start(calculATrous);    });}
+    function startCalculsVraisFaux()  
+      { loadScript("script/calculs-vrais-faux.js",  function() { start(CalculVraisFaux); });}
+    function startSuites()            
+      { loadScript("script/suites.js",              function() { start(suites); });}
+    </script>
+
+  </body>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-51517836-1', 'auto'); ga('send', 'pageview');
+  </script>
+</html>
